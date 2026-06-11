@@ -10,11 +10,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a0a0c;--card:#15161b;--card2:#1d1e25;--line:#2b2c34;
-  --ink:#eceef2;--ink-soft:#9b9da7;--accent:#3f9d68;--accent-hi:#4fbe7e;
-  --danger:#e25555;--radius:18px;--radius-sm:12px;
+  --bg:#fafaf7;--card:#ffffff;--card2:#f3f4f0;--line:#e2e4dd;
+  --ink:#1a2420;--ink-soft:#6b746e;--accent:#0e6e56;--accent-hi:#0a523f;
+  --danger:#c23c3c;--radius:18px;--radius-sm:12px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
+html{background:#fafaf7}
 body{
   font-family:'Noto Sans Thai',system-ui,sans-serif;
   background:var(--bg);color:var(--ink);min-height:100vh;
@@ -30,6 +31,7 @@ a{color:var(--accent-hi)}
 }
 .login-card{
   width:min(420px,92vw);
+  box-shadow:0 8px 30px rgba(26,36,32,.08);
   background:var(--card);border:1px solid var(--line);
   border-radius:var(--radius);padding:36px 32px;
   text-align:center;
@@ -82,6 +84,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent)}
 .btn-save:disabled{opacity:.5;cursor:wait}
 
 .panel{
+  box-shadow:0 1px 3px rgba(26,36,32,.05);
   background:var(--card);border:1px solid var(--line);
   border-radius:var(--radius);padding:22px;margin-bottom:18px;
 }
@@ -116,19 +119,19 @@ label{display:block;font-size:12.5px;color:var(--ink-soft);font-weight:600;margi
 
 .toast{
   position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
-  background:var(--card2);border:1px solid var(--line);color:var(--ink);
+  background:#fff;border:1px solid var(--line);color:var(--ink);box-shadow:0 8px 24px rgba(26,36,32,.12);
   padding:12px 26px;border-radius:999px;font-size:14px;font-weight:600;
   opacity:0;transition:all .3s;pointer-events:none;z-index:99;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.ok{border-color:var(--accent)}
-.toast.err{border-color:var(--danger);color:#f3a0a0}
+.toast.err{border-color:var(--danger);color:var(--danger)}
 
 .preview-link{font-size:13px;color:var(--ink-soft)}
 .setup-note{
-  background:rgba(63,157,104,.08);border:1px solid rgba(63,157,104,.3);
+  background:#e3f2ec;border:1px solid #b8dccd;
   border-radius:var(--radius-sm);padding:14px 16px;font-size:13.5px;
-  color:#bfe3cd;line-height:1.7;margin-bottom:18px;display:none;
+  color:#0a523f;line-height:1.7;margin-bottom:18px;display:none;
 }
 @media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
 </style>
@@ -227,7 +230,7 @@ label{display:block;font-size:12.5px;color:var(--ink-soft);font-weight:600;margi
    ⚙️ ตั้งค่า: ใส่ Web app URL จาก Google Apps Script ที่นี่
    (URL เดียวกับใน index.html)
 ============================================================ */
-const GAS_URL = '';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzJl8SNWNfIBhIseeOzjfmrLlX0eXLusSpXyhwbNqhvewSch9v7IjPLZp1xOScfp5FZag/exec';
 
 /* ค่า pepper ฝั่ง client — ใช้ประกอบการ hash ก่อนส่งเท่านั้น
    ❗ รหัสผ่านจริงและ hash สำหรับเทียบ อยู่ใน Code.gs (ฝั่ง server) ไม่อยู่ในไฟล์นี้ */

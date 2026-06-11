@@ -10,65 +10,95 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a0a0c;
+  --bg:#fafaf7;
   --card:#ffffff;
-  --card-inner:#f4f5f7;
-  --ink:#17181c;
-  --ink-soft:#5b5e66;
-  --pill-dark:#1c1d22;
-  --accent:#2f7d4f;
-  --accent-soft:#e7f3ec;
-  --radius-xl:32px;
+  --line:#e6e8e2;
+  --line-soft:#eef0ea;
+  --ink:#1a2420;
+  --ink-soft:#5d6862;
+  --ink-faint:#97a09a;
+  --teal:#0e6e56;
+  --teal-deep:#0a523f;
+  --teal-soft:#e3f2ec;
+  --blue:#1d5fa5;
+  --blue-soft:#e7f0fa;
+  --green:#3f7a1e;
+  --green-soft:#ecf4e3;
+  --amber:#a16307;
+  --amber-soft:#faf1de;
+  --pink:#a8385e;
+  --pink-soft:#f9eaf0;
+  --radius-xl:30px;
   --radius-lg:22px;
   --radius-md:16px;
-  --shadow:0 10px 34px rgba(0,0,0,.35);
+  --shadow-sm:0 1px 3px rgba(26,36,32,.05);
+  --shadow-hover:0 14px 36px rgba(26,36,32,.12);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;background:#fafaf7}
 body{
   font-family:'Noto Sans Thai',system-ui,sans-serif;
   background:var(--bg);
-  color:#fff;
+  color:var(--ink);
   min-height:100vh;
-  padding:28px clamp(14px,4vw,48px) 60px;
+  padding:34px clamp(14px,4vw,52px) 56px;
 }
 
 /* ---------- Header ---------- */
 .header{
-  display:flex;align-items:stretch;gap:18px;flex-wrap:wrap;
-  max-width:1480px;margin:0 auto 30px;
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;
+  max-width:1480px;margin:0 auto 14px;
 }
-.title-pill{
-  flex:1;min-width:280px;
-  background:var(--card);color:var(--ink);
-  border-radius:var(--radius-xl);
-  padding:clamp(18px,3vw,30px) clamp(24px,4vw,52px);
-  display:flex;align-items:center;
-  box-shadow:var(--shadow);
+.title-block{flex:1;min-width:280px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:clamp(12px,1.3vw,14.5px);font-weight:600;
+  color:var(--teal);
+  background:var(--teal-soft);
+  border-radius:999px;padding:6px 16px;
+  margin-bottom:14px;
 }
-.title-pill h1{
-  font-size:clamp(26px,4.6vw,56px);
-  font-weight:800;letter-spacing:-.5px;line-height:1.15;
+.eyebrow::before{
+  content:'';width:7px;height:7px;border-radius:50%;
+  background:var(--teal);
 }
+.title-block h1{
+  font-size:clamp(28px,4.8vw,54px);
+  font-weight:800;letter-spacing:-1px;line-height:1.12;
+  color:var(--ink);
+}
+.title-block h1 .accent{color:var(--teal)}
 .year-box{
-  display:flex;flex-direction:column;justify-content:center;gap:8px;
-  min-width:170px;
+  display:flex;flex-direction:column;gap:7px;min-width:160px;
 }
-.year-label{color:#9b9da6;font-size:clamp(15px,1.6vw,22px);font-weight:600;text-align:center}
+.year-label{
+  color:var(--ink-faint);font-size:13px;font-weight:600;
+  text-align:center;letter-spacing:.4px;
+}
 .year-select-wrap{position:relative}
 .year-select{
   appearance:none;-webkit-appearance:none;
   width:100%;
-  background:var(--pill-dark);color:#fff;
-  border:1px solid #34353c;border-radius:999px;
-  font-family:inherit;font-size:clamp(20px,2.2vw,30px);font-weight:700;
-  padding:12px 48px 12px 32px;text-align:center;
-  cursor:pointer;transition:border-color .2s;
+  background:var(--teal);color:#fff;
+  border:none;border-radius:999px;
+  font-family:inherit;font-size:clamp(19px,2vw,26px);font-weight:700;
+  padding:12px 50px 12px 34px;text-align:center;
+  cursor:pointer;transition:background .2s;
+  box-shadow:0 4px 14px rgba(14,110,86,.28);
 }
-.year-select:hover,.year-select:focus{border-color:#5a5c66;outline:none}
+.year-select:hover,.year-select:focus{background:var(--teal-deep);outline:none}
+.year-select:focus-visible{outline:3px solid rgba(14,110,86,.35);outline-offset:2px}
+.year-select option{color:var(--ink);background:#fff}
 .year-select-wrap::after{
-  content:'▾';position:absolute;right:20px;top:50%;
-  transform:translateY(-50%);color:#8a8c95;font-size:18px;pointer-events:none;
+  content:'▾';position:absolute;right:22px;top:50%;
+  transform:translateY(-50%);color:rgba(255,255,255,.85);
+  font-size:17px;pointer-events:none;
+}
+
+.header-rule{
+  max-width:1480px;margin:0 auto 30px;
+  height:1px;background:linear-gradient(90deg,var(--teal) 0 110px,var(--line) 110px 100%);
 }
 
 /* ---------- Main category cards ---------- */
@@ -77,146 +107,190 @@ body{
   max-width:1480px;margin:0 auto 26px;
 }
 .cat-card{
-  background:var(--card);border-radius:var(--radius-lg);
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
   padding:18px;
   display:flex;flex-direction:column;gap:14px;
   text-decoration:none;color:var(--ink);
-  box-shadow:var(--shadow);
-  transition:transform .25s ease, box-shadow .25s ease;
+  box-shadow:var(--shadow-sm);
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
-.cat-card:hover{transform:translateY(-6px);box-shadow:0 18px 44px rgba(0,0,0,.5)}
-.cat-card:focus-visible{outline:3px solid #6db28d;outline-offset:3px}
+.cat-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-hover);
+  border-color:#d7dad2;
+}
+.cat-card:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 .cat-head{display:flex;align-items:center;gap:12px}
 .cat-icon{
   width:52px;height:52px;flex-shrink:0;
-  border-radius:14px;background:var(--ink);color:#fff;
+  border-radius:15px;
   display:flex;align-items:center;justify-content:center;
 }
-.cat-icon svg{width:30px;height:30px}
-.cat-title{font-size:clamp(15px,1.5vw,21px);font-weight:700;line-height:1.3}
+.cat-icon svg{width:28px;height:28px}
+.chip-social{background:var(--blue-soft);color:var(--blue)}
+.chip-econ{background:var(--green-soft);color:var(--green)}
+.chip-env{background:var(--teal-soft);color:var(--teal)}
+.chip-default{background:var(--line-soft);color:var(--ink-soft)}
+.cat-title{font-size:clamp(15px,1.5vw,20px);font-weight:700;line-height:1.35}
 .cat-img{
   width:100%;aspect-ratio:16/9.4;
   border-radius:var(--radius-md);
-  object-fit:cover;background:var(--card-inner);
+  object-fit:cover;background:var(--line-soft);
   display:block;
 }
 .cat-img.placeholder{
   display:flex;align-items:center;justify-content:center;
-  color:#b7bac2;font-size:14px;
+  color:var(--ink-faint);font-size:13.5px;
+  border:1px dashed var(--line);
 }
+.cat-foot{
+  display:flex;align-items:center;justify-content:flex-end;gap:6px;
+  font-size:13px;font-weight:600;color:var(--teal);
+}
+.cat-foot svg{width:15px;height:15px;transition:transform .2s}
+.cat-card:hover .cat-foot svg{transform:translateX(4px)}
 
 /* ---------- Bottom row ---------- */
 .bottom-grid{
   display:grid;grid-template-columns:minmax(320px,1.05fr) 1.5fr;gap:22px;
   max-width:1480px;margin:0 auto;align-items:stretch;
 }
-.highlight-card{
-  background:var(--card);border-radius:var(--radius-lg);
-  padding:20px;box-shadow:var(--shadow);color:var(--ink);
+.highlight-card,.internal-wrap{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:22px;
+  box-shadow:var(--shadow-sm);
 }
-.section-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.section-head{display:flex;align-items:center;gap:11px;margin-bottom:18px}
 .info-badge{
-  width:34px;height:34px;border-radius:10px;
-  background:var(--ink);color:#fff;
+  width:34px;height:34px;border-radius:11px;
+  background:var(--amber-soft);color:var(--amber);
   display:flex;align-items:center;justify-content:center;
   font-weight:800;font-size:17px;font-style:italic;
 }
-.section-head h2{font-size:clamp(17px,1.8vw,24px);font-weight:700}
+.db-badge{
+  width:34px;height:34px;border-radius:11px;
+  background:var(--pink-soft);color:var(--pink);
+  display:flex;align-items:center;justify-content:center;
+}
+.db-badge svg{width:19px;height:19px}
+.section-head h2{font-size:clamp(17px,1.8vw,22px);font-weight:700;color:var(--ink)}
 .thumb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .thumb{
   text-decoration:none;color:var(--ink);
   display:flex;flex-direction:column;gap:8px;
+  border-radius:var(--radius-md);
   transition:transform .2s;
 }
 .thumb:hover{transform:translateY(-4px)}
-.thumb:focus-visible{outline:3px solid #6db28d;outline-offset:3px;border-radius:var(--radius-md)}
+.thumb:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 .thumb img,.thumb .ph{
   width:100%;aspect-ratio:1/1;border-radius:var(--radius-md);
-  object-fit:cover;background:var(--card-inner);display:block;
+  object-fit:cover;background:var(--line-soft);display:block;
 }
-.thumb .ph{display:flex;align-items:center;justify-content:center;color:#b7bac2}
-.thumb .ph svg{width:34px;height:34px}
-.thumb-label{font-size:clamp(13px,1.3vw,17px);font-weight:600;text-align:center}
-
-.internal-card{
-  display:flex;flex-direction:column;justify-content:center;
-  padding:20px clamp(16px,2vw,32px);
-}
-.internal-title{
-  color:#a9abb4;font-size:clamp(17px,1.9vw,26px);font-weight:700;
-  margin-bottom:22px;text-align:center;
-}
-.internal-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.internal-item{
-  text-decoration:none;color:#d7d8dd;
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  padding:14px 8px;border-radius:var(--radius-md);
-  border:1px solid transparent;
-  transition:background .2s,border-color .2s,transform .2s;
-}
-.internal-item:hover{background:#17181d;border-color:#2c2d34;transform:translateY(-4px)}
-.internal-item:focus-visible{outline:3px solid #6db28d;outline-offset:2px}
-.internal-icon{
-  width:62px;height:62px;border-radius:18px;
-  background:#1b1c22;border:1px solid #2c2d34;
+.thumb .ph{
   display:flex;align-items:center;justify-content:center;
-  color:#e8e9ee;
+  color:var(--ink-faint);border:1px dashed var(--line);
 }
-.internal-icon img{width:100%;height:100%;object-fit:cover;border-radius:18px}
-.internal-icon svg{width:32px;height:32px}
-.internal-label{font-size:clamp(11px,1.1vw,14.5px);font-weight:600;text-align:center;line-height:1.35}
-.internal-sub{font-size:clamp(10px,1vw,12.5px);color:#7e8089;font-weight:500;text-align:center;margin-top:-6px}
+.thumb .ph svg{width:32px;height:32px}
+.thumb-label{font-size:clamp(13px,1.3vw,16px);font-weight:600;text-align:center}
+
+.internal-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.internal-item{
+  text-decoration:none;color:var(--ink-soft);
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:16px 8px 13px;
+  border-radius:var(--radius-md);
+  background:var(--bg);
+  border:1px solid var(--line-soft);
+  transition:background .2s,border-color .2s,transform .2s,box-shadow .2s;
+}
+.internal-item:hover{
+  background:#fff;border-color:#d7dad2;
+  transform:translateY(-4px);box-shadow:var(--shadow-hover);
+}
+.internal-item:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.internal-icon{
+  width:58px;height:58px;border-radius:17px;
+  background:#fff;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--teal);
+}
+.internal-icon img{width:100%;height:100%;object-fit:cover;border-radius:17px}
+.internal-icon svg{width:29px;height:29px}
+.internal-label{
+  font-size:clamp(11.5px,1.1vw,14px);font-weight:700;
+  text-align:center;line-height:1.35;color:var(--ink);
+}
+.internal-sub{
+  font-size:clamp(10.5px,1vw,12.5px);color:var(--ink-faint);
+  font-weight:500;text-align:center;margin-top:-5px;
+}
 
 /* ---------- Footer ---------- */
 .footer{
-  max-width:1480px;margin:44px auto 0;
+  max-width:1480px;margin:42px auto 0;
+  padding-top:20px;border-top:1px solid var(--line);
   display:flex;justify-content:space-between;align-items:center;
   flex-wrap:wrap;gap:10px;
-  color:#6f717a;font-size:13px;
+  color:var(--ink-faint);font-size:13px;
 }
-.footer a{color:#8d8f99;text-decoration:none}
-.footer a:hover{color:#c6c8d0}
+.footer a{
+  color:var(--ink-faint);text-decoration:none;
+  display:inline-flex;align-items:center;gap:5px;
+  transition:color .2s;
+}
+.footer a:hover{color:var(--teal)}
 
-/* ---------- Loading skeleton ---------- */
-.skeleton{animation:pulse 1.4s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+/* ---------- Entrance animation ---------- */
+.fade-up{opacity:0;transform:translateY(14px);animation:fadeUp .55s ease forwards}
+.d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.19s}
+.d4{animation-delay:.26s}.d5{animation-delay:.33s}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 
 /* ---------- Responsive ---------- */
 @media(max-width:1080px){
   .main-grid{grid-template-columns:repeat(2,1fr)}
   .bottom-grid{grid-template-columns:1fr}
-  .internal-grid{grid-template-columns:repeat(5,1fr)}
 }
 @media(max-width:680px){
-  body{padding:18px 14px 50px}
+  body{padding:22px 14px 46px}
   .main-grid{grid-template-columns:1fr;gap:16px}
   .thumb-grid{grid-template-columns:repeat(2,1fr)}
-  .internal-grid{grid-template-columns:repeat(3,1fr);gap:10px}
-  .header{gap:12px}
+  .internal-grid{grid-template-columns:repeat(3,1fr);gap:9px}
+  .header{align-items:stretch}
   .year-box{flex:1}
 }
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
+  .fade-up{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="title-pill"><h1 id="siteTitle">ข้อมูลสถิติจังหวัดหนองบัวลำภู</h1></div>
+<header class="header fade-up">
+  <div class="title-block">
+    <span class="eyebrow">สำนักงานสถิติจังหวัดหนองบัวลำภู</span>
+    <h1 id="siteTitle">ข้อมูลสถิติจังหวัดหนองบัวลำภู</h1>
+  </div>
   <div class="year-box">
-    <span class="year-label">เลือกปี</span>
+    <span class="year-label">เลือกปีข้อมูล</span>
     <div class="year-select-wrap">
       <select class="year-select" id="yearSelect" aria-label="เลือกปีข้อมูล"></select>
     </div>
   </div>
 </header>
+<div class="header-rule fade-up d1"></div>
 
 <main>
-  <section class="main-grid" id="mainGrid" aria-label="หมวดหมู่ข้อมูลสถิติหลัก"></section>
+  <section class="main-grid fade-up d2" id="mainGrid" aria-label="หมวดหมู่ข้อมูลสถิติหลัก"></section>
 
   <section class="bottom-grid">
-    <div class="highlight-card">
+    <div class="highlight-card fade-up d3">
       <div class="section-head">
         <span class="info-badge" aria-hidden="true">i</span>
         <h2 id="highlightTitle">สถิติที่น่าสนใจ</h2>
@@ -224,14 +298,17 @@ body{
       <div class="thumb-grid" id="thumbGrid"></div>
     </div>
 
-    <div class="internal-card">
-      <div class="internal-title" id="internalTitle">ข้อมูลที่มีภายในจังหวัด</div>
+    <div class="internal-wrap fade-up d4">
+      <div class="section-head">
+        <span class="db-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v13c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-13M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/></svg></span>
+        <h2 id="internalTitle">ข้อมูลที่มีภายในจังหวัด</h2>
+      </div>
       <div class="internal-grid" id="internalGrid"></div>
     </div>
   </section>
 </main>
 
-<footer class="footer">
+<footer class="footer fade-up d5">
   <span id="footerText">สำนักงานสถิติจังหวัดหนองบัวลำภู</span>
   <a href="admin.html" rel="nofollow">⚙ สำหรับเจ้าหน้าที่</a>
 </footer>
@@ -241,7 +318,7 @@ body{
    ⚙️ ตั้งค่า: ใส่ Web app URL จาก Google Apps Script ที่นี่
    (ปล่อยว่างได้ — จะใช้ค่า default ด้านล่างแทน)
 ============================================================ */
-const GAS_URL = '';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzJl8SNWNfIBhIseeOzjfmrLlX0eXLusSpXyhwbNqhvewSch9v7IjPLZp1xOScfp5FZag/exec';
 
 /* ---------- SVG icon set (inline, ไม่ต้องโหลดภายนอก) ---------- */
 const ICONS = {
@@ -348,15 +425,17 @@ function render(cfg){
   };
 
   // กล่องหมวดหลัก
+  const chipMap = { social:'chip-social', econ:'chip-econ', env:'chip-env' };
   document.getElementById('mainGrid').innerHTML = (cfg.mainCards||[]).map(c => `
     <a class="cat-card" href="${safeUrl(c.url)}" target="_blank" rel="noopener">
       <div class="cat-head">
-        <div class="cat-icon" aria-hidden="true">${ICONS[c.icon] || ICONS.social}</div>
+        <div class="cat-icon ${chipMap[c.icon]||'chip-default'}" aria-hidden="true">${ICONS[c.icon] || ICONS.social}</div>
         <div class="cat-title">${esc(c.title)}</div>
       </div>
       ${c.image
         ? `<img class="cat-img" src="${esc(normalizeImg(c.image))}" alt="${esc(c.title)}" loading="lazy">`
         : `<div class="cat-img placeholder">ยังไม่มีภาพประกอบ</div>`}
+      <div class="cat-foot">ดูข้อมูล <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
     </a>`).join('');
 
   // สถิติที่น่าสนใจ
