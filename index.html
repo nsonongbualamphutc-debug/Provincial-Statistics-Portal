@@ -241,7 +241,7 @@ body{
    ⚙️ ตั้งค่า: ใส่ Web app URL จาก Google Apps Script ที่นี่
    (ปล่อยว่างได้ — จะใช้ค่า default ด้านล่างแทน)
 ============================================================ */
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzJl8SNWNfIBhIseeOzjfmrLlX0eXLusSpXyhwbNqhvewSch9v7IjPLZp1xOScfp5FZag/exec';
+const GAS_URL = '';
 
 /* ---------- SVG icon set (inline, ไม่ต้องโหลดภายนอก) ---------- */
 const ICONS = {
@@ -307,12 +307,28 @@ const DEFAULT_CONFIG = {
 
 /* ---------- Render ---------- */
 function esc(s){ return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* แปลงลิงก์แชร์ Google Drive ให้เป็นลิงก์ภาพที่ใช้ใน <img> ได้
+   รองรับ: /file/d/ID/view , ?id=ID , uc?export=view&id=ID
+   ⚠️ ไฟล์ต้องตั้งแชร์เป็น "ทุกคนที่มีลิงก์" (Anyone with the link) */
+function normalizeImg(u){
+  u = String(u||'').trim();
+  if (!u) return '';
+  let id = '';
+  let m = u.match(/drive\.google\.com\/file\/d\/([\w-]{20,})/);
+  if (m) id = m[1];
+  if (!id) { m = u.match(/[?&]id=([\w-]{20,})/); if (m && /drive\.google\.com|docs\.google\.com/.test(u)) id = m[1]; }
+  if (!id) { m = u.match(/lh3\.googleusercontent\.com\/d\/([\w-]{20,})/); if (m) return u; }
+  if (id) return 'https://drive.google.com/thumbnail?id=' + id + '&sz=w1600';
+  return u;
+}
+
 function safeUrl(u){
   u = String(u||'').trim();
   return /^https?:\/\//i.test(u) ? u : '#';
 }
 function iconOrImage(item, cls){
-  if (item.image) return `<img class="${cls}" src="${esc(item.image)}" alt="" loading="lazy">`;
+  if (item.image) return `<img class="${cls}" src="${esc(normalizeImg(item.image))}" alt="" loading="lazy">`;
   const svg = ICONS[item.icon] || ICONS.social;
   return `<div class="${cls} ph" aria-hidden="true">${svg}</div>`;
 }
@@ -339,7 +355,7 @@ function render(cfg){
         <div class="cat-title">${esc(c.title)}</div>
       </div>
       ${c.image
-        ? `<img class="cat-img" src="${esc(c.image)}" alt="${esc(c.title)}" loading="lazy">`
+        ? `<img class="cat-img" src="${esc(normalizeImg(c.image))}" alt="${esc(c.title)}" loading="lazy">`
         : `<div class="cat-img placeholder">ยังไม่มีภาพประกอบ</div>`}
     </a>`).join('');
 
@@ -355,7 +371,7 @@ function render(cfg){
   document.getElementById('internalTitle').textContent = cfg.internalTitle || DEFAULT_CONFIG.internalTitle;
   document.getElementById('internalGrid').innerHTML = (cfg.internals||[]).map(t => `
     <a class="internal-item" href="${safeUrl(t.url)}" target="_blank" rel="noopener">
-      <div class="internal-icon">${t.image ? `<img src="${esc(t.image)}" alt="" loading="lazy">` : (ICONS[t.icon]||ICONS.money)}</div>
+      <div class="internal-icon">${t.image ? `<img src="${esc(normalizeImg(t.image))}" alt="" loading="lazy">` : (ICONS[t.icon]||ICONS.money)}</div>
       <span class="internal-label">${esc(t.label)}</span>
       ${t.sub ? `<span class="internal-sub">${esc(t.sub)}</span>` : ''}
     </a>`).join('');
