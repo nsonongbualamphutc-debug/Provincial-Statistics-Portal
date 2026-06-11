@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ระบบหลังบ้าน — ข้อมูลสถิติจังหวัดหนองบัวลำภู</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0c;--card:#15161b;--card2:#1d1e25;--line:#2b2c34;
+  --ink:#eceef2;--ink-soft:#9b9da7;--accent:#3f9d68;--accent-hi:#4fbe7e;
+  --danger:#e25555;--radius:18px;--radius-sm:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Noto Sans Thai',system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);min-height:100vh;
+  padding:28px clamp(14px,4vw,48px) 80px;
+}
+h1{font-size:clamp(20px,3vw,30px);font-weight:800}
+h2{font-size:17px;font-weight:700;color:var(--ink)}
+a{color:var(--accent-hi)}
+
+/* ---------- Login ---------- */
+.login-wrap{
+  min-height:80vh;display:flex;align-items:center;justify-content:center;
+}
+.login-card{
+  width:min(420px,92vw);
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:36px 32px;
+  text-align:center;
+}
+.lock-icon{
+  width:64px;height:64px;margin:0 auto 18px;border-radius:20px;
+  background:var(--card2);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;color:var(--accent-hi);
+}
+.lock-icon svg{width:32px;height:32px}
+.login-card p{color:var(--ink-soft);font-size:14px;margin:8px 0 24px}
+.field{position:relative;margin-bottom:14px}
+input[type=password],input[type=text],input[type=url],select{
+  width:100%;font-family:inherit;font-size:15px;
+  background:var(--card2);color:var(--ink);
+  border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:12px 14px;transition:border-color .2s;
+}
+input:focus,select:focus{outline:none;border-color:var(--accent)}
+.toggle-eye{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:var(--ink-soft);cursor:pointer;
+  padding:6px;display:flex;
+}
+.toggle-eye svg{width:20px;height:20px}
+.btn{
+  font-family:inherit;font-size:15px;font-weight:700;
+  border:none;border-radius:var(--radius-sm);cursor:pointer;
+  padding:12px 22px;transition:opacity .2s,transform .1s;
+}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--accent);color:#fff;width:100%}
+.btn-primary:hover{background:var(--accent-hi)}
+.btn-primary:disabled{opacity:.5;cursor:wait}
+.login-error{
+  color:var(--danger);font-size:13.5px;margin-top:12px;min-height:20px;font-weight:600;
+}
+
+/* ---------- Editor ---------- */
+.editor{display:none;max-width:980px;margin:0 auto}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  flex-wrap:wrap;margin-bottom:26px;
+}
+.topbar-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-ghost{background:var(--card2);color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--ink-soft)}
+.btn-save{background:var(--accent);color:#fff;min-width:180px}
+.btn-save:hover{background:var(--accent-hi)}
+.btn-save:disabled{opacity:.5;cursor:wait}
+
+.panel{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:22px;margin-bottom:18px;
+}
+.panel-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:16px;gap:10px;flex-wrap:wrap;
+}
+.panel-head .hint{font-size:12.5px;color:var(--ink-soft)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid-3{display:grid;grid-template-columns:1.2fr 1fr 2fr;gap:10px}
+label{display:block;font-size:12.5px;color:var(--ink-soft);font-weight:600;margin:0 0 5px}
+.row-item{
+  background:var(--card2);border:1px solid var(--line);
+  border-radius:var(--radius-sm);padding:14px;margin-bottom:10px;
+  position:relative;
+}
+.row-num{
+  position:absolute;top:-9px;left:14px;
+  background:var(--accent);color:#fff;font-size:11px;font-weight:700;
+  padding:2px 10px;border-radius:999px;
+}
+.row-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:6px}
+.btn-mini{
+  font-size:12.5px;font-weight:600;padding:7px 14px;
+  border-radius:8px;border:1px solid var(--line);
+  background:transparent;color:var(--ink-soft);cursor:pointer;font-family:inherit;
+}
+.btn-mini:hover{color:var(--ink);border-color:var(--ink-soft)}
+.btn-mini.danger{color:var(--danger);border-color:rgba(226,85,85,.35)}
+.btn-mini.danger:hover{background:rgba(226,85,85,.1)}
+.row-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--card2);border:1px solid var(--line);color:var(--ink);
+  padding:12px 26px;border-radius:999px;font-size:14px;font-weight:600;
+  opacity:0;transition:all .3s;pointer-events:none;z-index:99;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:var(--accent)}
+.toast.err{border-color:var(--danger);color:#f3a0a0}
+
+.preview-link{font-size:13px;color:var(--ink-soft)}
+.setup-note{
+  background:rgba(63,157,104,.08);border:1px solid rgba(63,157,104,.3);
+  border-radius:var(--radius-sm);padding:14px 16px;font-size:13.5px;
+  color:#bfe3cd;line-height:1.7;margin-bottom:18px;display:none;
+}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ==================== LOGIN ==================== -->
+<div class="login-wrap" id="loginView">
+  <div class="login-card">
+    <div class="lock-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="15.5" r="1.3"/></svg>
+    </div>
+    <h1>ระบบหลังบ้าน</h1>
+    <p>ข้อมูลสถิติจังหวัดหนองบัวลำภู — สำหรับเจ้าหน้าที่เท่านั้น</p>
+    <form id="loginForm">
+      <div class="field">
+        <input type="password" id="pwInput" placeholder="รหัสผ่าน" autocomplete="current-password" required>
+        <button type="button" class="toggle-eye" id="eyeBtn" aria-label="แสดง/ซ่อนรหัสผ่าน">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>
+        </button>
+      </div>
+      <button type="submit" class="btn btn-primary" id="loginBtn">เข้าสู่ระบบ</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== EDITOR ==================== -->
+<div class="editor" id="editorView">
+  <div class="topbar">
+    <div>
+      <h1>⚙ จัดการเนื้อหา</h1>
+      <a class="preview-link" href="index.html" target="_blank" rel="noopener">เปิดดูหน้าเว็บ ↗</a>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost" id="logoutBtn">ออกจากระบบ</button>
+      <button class="btn btn-save" id="saveBtn">💾 บันทึกทั้งหมด</button>
+    </div>
+  </div>
+
+  <div class="setup-note" id="setupNote">
+    <strong>⚠ ยังไม่ได้เชื่อมต่อ Google Apps Script</strong><br>
+    ใส่ Web app URL ในตัวแปร <code>GAS_URL</code> ของไฟล์ <code>index.html</code> และ <code>admin.html</code>
+    ก่อน จึงจะบันทึกข้อมูลข้ามเครื่องได้ (ตอนนี้บันทึกลงเครื่องนี้ชั่วคราวเท่านั้น)
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><h2>ข้อมูลทั่วไป</h2></div>
+    <div class="grid-2">
+      <div><label>ชื่อหน้าเว็บ</label><input type="text" id="f-siteTitle"></div>
+      <div><label>ข้อความท้ายหน้า</label><input type="text" id="f-footerText"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>ปีข้อมูล</h2>
+      <button class="btn-mini" onclick="addYear()">+ เพิ่มปี</button>
+    </div>
+    <div id="yearList"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>กล่องหมวดหมู่หลัก (3 กล่อง)</h2>
+      <span class="hint">ใส่ URL ภาพ (เช่นจาก GitHub /images/ หรือเว็บอื่น) เพื่อแสดงแทนไอคอน</span>
+    </div>
+    <div id="mainCardList"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>สถิติที่น่าสนใจ</h2>
+      <button class="btn-mini" onclick="addHighlight()">+ เพิ่มรายการ</button>
+    </div>
+    <div style="margin-bottom:12px"><label>หัวข้อส่วนนี้</label><input type="text" id="f-highlightTitle"></div>
+    <div id="highlightList"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>ข้อมูลที่มีภายในจังหวัด</h2>
+      <button class="btn-mini" onclick="addInternal()">+ เพิ่มรายการ</button>
+    </div>
+    <div style="margin-bottom:12px"><label>หัวข้อส่วนนี้</label><input type="text" id="f-internalTitle"></div>
+    <div id="internalList"></div>
+  </div>
+
+  <button class="btn btn-save" id="saveBtn2" style="width:100%">💾 บันทึกทั้งหมด</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   ⚙️ ตั้งค่า: ใส่ Web app URL จาก Google Apps Script ที่นี่
+   (URL เดียวกับใน index.html)
+============================================================ */
+const GAS_URL = '';
+
+/* ค่า pepper ฝั่ง client — ใช้ประกอบการ hash ก่อนส่งเท่านั้น
+   ❗ รหัสผ่านจริงและ hash สำหรับเทียบ อยู่ใน Code.gs (ฝั่ง server) ไม่อยู่ในไฟล์นี้ */
+const PEPPER = 'NBL-STAT-PEPPER-x7Qm2026';
+
+const SESSION_KEY = 'nbl_admin_token';
+const LOCAL_CFG_KEY = 'nbl_local_config';
+
+const ICON_OPTIONS = {
+  social:'โลก/สารสนเทศ', econ:'กราฟเศรษฐกิจ', env:'ใบไม้/สิ่งแวดล้อม',
+  people:'ประชากร', labor:'แรงงาน/บ้าน', edu:'การศึกษา', health:'สุขภาพ/หัวใจ',
+  money:'เงิน/รายได้', trade:'การค้า', welfare:'สวัสดิการ', justice:'ยุติธรรม', transport:'ขนส่ง'
+};
+
+const DEFAULT_CONFIG = {
+  siteTitle:'ข้อมูลสถิติจังหวัดหนองบัวลำภู',
+  footerText:'สำนักงานสถิติจังหวัดหนองบัวลำภู',
+  years:[{label:'2567',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'}],
+  mainCards:[
+    {title:'สถิติด้านสังคมและสารสนเทศ',icon:'social',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'},
+    {title:'สถิติข้อมูลด้านเศรษฐกิจ',icon:'econ',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'},
+    {title:'สถิติข้อมูลด้านทรัพยากรธรรมชาติและสิ่งแวดล้อม',icon:'env',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'}
+  ],
+  highlightTitle:'สถิติที่น่าสนใจ',
+  highlights:[
+    {label:'ประชากร',icon:'people',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'},
+    {label:'แรงงาน',icon:'labor',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'},
+    {label:'การศึกษา',icon:'edu',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'},
+    {label:'สุขภาพ',icon:'health',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'}
+  ],
+  internalTitle:'ข้อมูลที่มีภายในจังหวัด',
+  internals:[
+    {label:'รายได้ รายจ่าย',sub:'ของครัวเรือน',icon:'money',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'},
+    {label:'การค้าและราคา',sub:'ภายในจังหวัด',icon:'trade',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'},
+    {label:'สวัสดิการ',sub:'และสังคม',icon:'welfare',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'},
+    {label:'ยุติธรรม ความมั่นคง',sub:'และการปกครอง',icon:'justice',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'},
+    {label:'ขนส่ง',sub:'และโลจิสติกส์',icon:'transport',image:'',url:'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'}
+  ]
+};
+
+let config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+let token = sessionStorage.getItem(SESSION_KEY) || '';
+
+/* ---------- Crypto ---------- */
+async function sha256Hex(str){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* ---------- JSONP helper ---------- */
+function jsonp(url){
+  return new Promise((resolve,reject) => {
+    const cb = 'nblCb_' + Math.random().toString(36).slice(2);
+    const timer = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 10000);
+    function cleanup(){ delete window[cb]; s.remove(); clearTimeout(timer); }
+    window[cb] = d => { cleanup(); resolve(d); };
+    const s = document.createElement('script');
+    s.src = url + (url.includes('?')?'&':'?') + 'callback=' + cb;
+    s.onerror = () => { cleanup(); reject(new Error('network')); };
+    document.body.appendChild(s);
+  });
+}
+
+/* ---------- Toast ---------- */
+function toast(msg, type){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type||'');
+  setTimeout(() => t.className = 'toast', 2600);
+}
+
+/* ---------- Login ---------- */
+document.getElementById('eyeBtn').onclick = () => {
+  const inp = document.getElementById('pwInput');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+};
+
+document.getElementById('loginForm').onsubmit = async (ev) => {
+  ev.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+  errEl.textContent = '';
+  btn.disabled = true; btn.textContent = 'กำลังตรวจสอบ...';
+
+  try {
+    const pw = document.getElementById('pwInput').value;
+    const hash = await sha256Hex(PEPPER + pw);
+
+    if (!GAS_URL) {
+      errEl.textContent = 'ยังไม่ได้ตั้งค่า GAS_URL — เปิดโหมดทดลอง (แก้ไขได้ บันทึกลงเครื่องนี้เท่านั้น)';
+      token = 'local-demo';
+      setTimeout(enterEditor, 900);
+      return;
+    }
+
+    const res = await jsonp(GAS_URL + '?action=login&h=' + encodeURIComponent(hash));
+    if (res && res.ok && res.token) {
+      token = res.token;
+      sessionStorage.setItem(SESSION_KEY, token);
+      enterEditor();
+    } else {
+      errEl.textContent = (res && res.error) || 'รหัสผ่านไม่ถูกต้อง';
+    }
+  } catch (e) {
+    errEl.textContent = 'เชื่อมต่อไม่สำเร็จ ลองใหม่อีกครั้ง';
+  } finally {
+    btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+  }
+};
+
+document.getElementById('logoutBtn').onclick = () => {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+};
+
+/* ---------- Editor ---------- */
+async function enterEditor(){
+  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('editorView').style.display = 'block';
+  if (!GAS_URL) document.getElementById('setupNote').style.display = 'block';
+
+  // โหลด config ล่าสุด
+  if (GAS_URL) {
+    try {
+      const res = await jsonp(GAS_URL);
+      if (res && res.ok && res.config) config = Object.assign({}, DEFAULT_CONFIG, res.config);
+    } catch(e){}
+  } else {
+    const local = localStorage.getItem(LOCAL_CFG_KEY);
+    if (local) { try { config = Object.assign({}, DEFAULT_CONFIG, JSON.parse(local)); } catch(e){} }
+  }
+  renderEditor();
+}
+
+function esc(s){ return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function iconSelect(id, current){
+  return `<select id="${id}">` +
+    Object.entries(ICON_OPTIONS).map(([k,v]) =>
+      `<option value="${k}" ${k===current?'selected':''}>${v}</option>`).join('') +
+    `</select>`;
+}
+
+function renderEditor(){
+  document.getElementById('f-siteTitle').value = config.siteTitle || '';
+  document.getElementById('f-footerText').value = config.footerText || '';
+  document.getElementById('f-highlightTitle').value = config.highlightTitle || '';
+  document.getElementById('f-internalTitle').value = config.internalTitle || '';
+
+  document.getElementById('yearList').innerHTML = config.years.map((y,i) => `
+    <div class="row-item">
+      <span class="row-num">ปีที่ ${i+1}</span>
+      <div class="row-grid">
+        <div><label>ปี (พ.ศ.)</label><input type="text" id="y${i}label" value="${esc(y.label)}"></div>
+        <div style="grid-column:span 2"><label>ลิงก์รายงานของปีนี้</label><input type="url" id="y${i}url" value="${esc(y.url)}"></div>
+      </div>
+      <div class="row-actions">
+        ${config.years.length>1?`<button class="btn-mini danger" onclick="delYear(${i})">ลบ</button>`:''}
+      </div>
+    </div>`).join('');
+
+  document.getElementById('mainCardList').innerHTML = config.mainCards.map((c,i) => `
+    <div class="row-item">
+      <span class="row-num">กล่องที่ ${i+1}</span>
+      <div class="row-grid">
+        <div style="grid-column:1/-1"><label>ชื่อกล่อง</label><input type="text" id="mc${i}title" value="${esc(c.title)}"></div>
+        <div><label>ไอคอน</label>${iconSelect(`mc${i}icon`, c.icon)}</div>
+        <div><label>URL ภาพประกอบ (ไม่บังคับ)</label><input type="url" id="mc${i}image" value="${esc(c.image)}" placeholder="https://...jpg"></div>
+        <div><label>ลิงก์ปลายทางเมื่อคลิก</label><input type="url" id="mc${i}url" value="${esc(c.url)}"></div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('highlightList').innerHTML = config.highlights.map((t,i) => `
+    <div class="row-item">
+      <span class="row-num">${i+1}</span>
+      <div class="row-grid">
+        <div><label>ชื่อ</label><input type="text" id="h${i}label" value="${esc(t.label)}"></div>
+        <div><label>ไอคอน</label>${iconSelect(`h${i}icon`, t.icon)}</div>
+        <div><label>URL ภาพ (ไม่บังคับ)</label><input type="url" id="h${i}image" value="${esc(t.image)}" placeholder="https://...jpg"></div>
+        <div><label>ลิงก์ปลายทาง</label><input type="url" id="h${i}url" value="${esc(t.url)}"></div>
+      </div>
+      <div class="row-actions"><button class="btn-mini danger" onclick="delHighlight(${i})">ลบ</button></div>
+    </div>`).join('');
+
+  document.getElementById('internalList').innerHTML = config.internals.map((t,i) => `
+    <div class="row-item">
+      <span class="row-num">${i+1}</span>
+      <div class="row-grid">
+        <div><label>ชื่อ (บรรทัดบน)</label><input type="text" id="n${i}label" value="${esc(t.label)}"></div>
+        <div><label>คำขยาย (บรรทัดล่าง)</label><input type="text" id="n${i}sub" value="${esc(t.sub||'')}"></div>
+        <div><label>ไอคอน</label>${iconSelect(`n${i}icon`, t.icon)}</div>
+        <div><label>URL ภาพ (ไม่บังคับ)</label><input type="url" id="n${i}image" value="${esc(t.image)}" placeholder="https://...png"></div>
+        <div style="grid-column:1/-1"><label>ลิงก์ปลายทาง</label><input type="url" id="n${i}url" value="${esc(t.url)}"></div>
+      </div>
+      <div class="row-actions"><button class="btn-mini danger" onclick="delInternal(${i})">ลบ</button></div>
+    </div>`).join('');
+}
+
+function collect(){
+  config.siteTitle = document.getElementById('f-siteTitle').value.trim();
+  config.footerText = document.getElementById('f-footerText').value.trim();
+  config.highlightTitle = document.getElementById('f-highlightTitle').value.trim();
+  config.internalTitle = document.getElementById('f-internalTitle').value.trim();
+  config.years = config.years.map((y,i) => ({
+    label: document.getElementById(`y${i}label`).value.trim(),
+    url: document.getElementById(`y${i}url`).value.trim()
+  }));
+  config.mainCards = config.mainCards.map((c,i) => ({
+    title: document.getElementById(`mc${i}title`).value.trim(),
+    icon: document.getElementById(`mc${i}icon`).value,
+    image: document.getElementById(`mc${i}image`).value.trim(),
+    url: document.getElementById(`mc${i}url`).value.trim()
+  }));
+  config.highlights = config.highlights.map((t,i) => ({
+    label: document.getElementById(`h${i}label`).value.trim(),
+    icon: document.getElementById(`h${i}icon`).value,
+    image: document.getElementById(`h${i}image`).value.trim(),
+    url: document.getElementById(`h${i}url`).value.trim()
+  }));
+  config.internals = config.internals.map((t,i) => ({
+    label: document.getElementById(`n${i}label`).value.trim(),
+    sub: document.getElementById(`n${i}sub`).value.trim(),
+    icon: document.getElementById(`n${i}icon`).value,
+    image: document.getElementById(`n${i}image`).value.trim(),
+    url: document.getElementById(`n${i}url`).value.trim()
+  }));
+}
+
+/* ---------- Add / Delete ---------- */
+function addYear(){ collect(); config.years.push({label:'',url:''}); renderEditor(); }
+function delYear(i){ collect(); config.years.splice(i,1); renderEditor(); }
+function addHighlight(){ collect(); config.highlights.push({label:'',icon:'people',image:'',url:''}); renderEditor(); }
+function delHighlight(i){ collect(); config.highlights.splice(i,1); renderEditor(); }
+function addInternal(){ collect(); config.internals.push({label:'',sub:'',icon:'money',image:'',url:''}); renderEditor(); }
+function delInternal(i){ collect(); config.internals.splice(i,1); renderEditor(); }
+
+/* ---------- Save ---------- */
+async function save(){
+  collect();
+  const btns = [document.getElementById('saveBtn'), document.getElementById('saveBtn2')];
+  btns.forEach(b => { b.disabled = true; b.textContent = 'กำลังบันทึก...'; });
+
+  try {
+    if (!GAS_URL) {
+      localStorage.setItem(LOCAL_CFG_KEY, JSON.stringify(config));
+      toast('บันทึกลงเครื่องนี้แล้ว (โหมดทดลอง)', 'ok');
+      return;
+    }
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action:'save', token, config })
+    });
+    const data = await res.json();
+    if (data.ok) toast('✓ บันทึกสำเร็จ', 'ok');
+    else {
+      toast(data.error || 'บันทึกไม่สำเร็จ', 'err');
+      if (String(data.error||'').includes('session')) {
+        sessionStorage.removeItem(SESSION_KEY);
+        setTimeout(() => location.reload(), 1500);
+      }
+    }
+  } catch(e) {
+    toast('เชื่อมต่อไม่สำเร็จ', 'err');
+  } finally {
+    btns.forEach(b => { b.disabled = false; b.textContent = '💾 บันทึกทั้งหมด'; });
+  }
+}
+document.getElementById('saveBtn').onclick = save;
+document.getElementById('saveBtn2').onclick = save;
+
+/* ---------- Auto-resume session ---------- */
+if (token && token !== 'local-demo') enterEditor();
+</script>
+</body>
+</html>

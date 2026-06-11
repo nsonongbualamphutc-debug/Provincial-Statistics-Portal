@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ข้อมูลสถิติจังหวัดหนองบัวลำภู</title>
+<meta name="description" content="ศูนย์รวมข้อมูลสถิติจังหวัดหนองบัวลำภู — สังคม เศรษฐกิจ ทรัพยากรธรรมชาติและสิ่งแวดล้อม">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0c;
+  --card:#ffffff;
+  --card-inner:#f4f5f7;
+  --ink:#17181c;
+  --ink-soft:#5b5e66;
+  --pill-dark:#1c1d22;
+  --accent:#2f7d4f;
+  --accent-soft:#e7f3ec;
+  --radius-xl:32px;
+  --radius-lg:22px;
+  --radius-md:16px;
+  --shadow:0 10px 34px rgba(0,0,0,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans Thai',system-ui,sans-serif;
+  background:var(--bg);
+  color:#fff;
+  min-height:100vh;
+  padding:28px clamp(14px,4vw,48px) 60px;
+}
+
+/* ---------- Header ---------- */
+.header{
+  display:flex;align-items:stretch;gap:18px;flex-wrap:wrap;
+  max-width:1480px;margin:0 auto 30px;
+}
+.title-pill{
+  flex:1;min-width:280px;
+  background:var(--card);color:var(--ink);
+  border-radius:var(--radius-xl);
+  padding:clamp(18px,3vw,30px) clamp(24px,4vw,52px);
+  display:flex;align-items:center;
+  box-shadow:var(--shadow);
+}
+.title-pill h1{
+  font-size:clamp(26px,4.6vw,56px);
+  font-weight:800;letter-spacing:-.5px;line-height:1.15;
+}
+.year-box{
+  display:flex;flex-direction:column;justify-content:center;gap:8px;
+  min-width:170px;
+}
+.year-label{color:#9b9da6;font-size:clamp(15px,1.6vw,22px);font-weight:600;text-align:center}
+.year-select-wrap{position:relative}
+.year-select{
+  appearance:none;-webkit-appearance:none;
+  width:100%;
+  background:var(--pill-dark);color:#fff;
+  border:1px solid #34353c;border-radius:999px;
+  font-family:inherit;font-size:clamp(20px,2.2vw,30px);font-weight:700;
+  padding:12px 48px 12px 32px;text-align:center;
+  cursor:pointer;transition:border-color .2s;
+}
+.year-select:hover,.year-select:focus{border-color:#5a5c66;outline:none}
+.year-select-wrap::after{
+  content:'▾';position:absolute;right:20px;top:50%;
+  transform:translateY(-50%);color:#8a8c95;font-size:18px;pointer-events:none;
+}
+
+/* ---------- Main category cards ---------- */
+.main-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  max-width:1480px;margin:0 auto 26px;
+}
+.cat-card{
+  background:var(--card);border-radius:var(--radius-lg);
+  padding:18px;
+  display:flex;flex-direction:column;gap:14px;
+  text-decoration:none;color:var(--ink);
+  box-shadow:var(--shadow);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.cat-card:hover{transform:translateY(-6px);box-shadow:0 18px 44px rgba(0,0,0,.5)}
+.cat-card:focus-visible{outline:3px solid #6db28d;outline-offset:3px}
+.cat-head{display:flex;align-items:center;gap:12px}
+.cat-icon{
+  width:52px;height:52px;flex-shrink:0;
+  border-radius:14px;background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+}
+.cat-icon svg{width:30px;height:30px}
+.cat-title{font-size:clamp(15px,1.5vw,21px);font-weight:700;line-height:1.3}
+.cat-img{
+  width:100%;aspect-ratio:16/9.4;
+  border-radius:var(--radius-md);
+  object-fit:cover;background:var(--card-inner);
+  display:block;
+}
+.cat-img.placeholder{
+  display:flex;align-items:center;justify-content:center;
+  color:#b7bac2;font-size:14px;
+}
+
+/* ---------- Bottom row ---------- */
+.bottom-grid{
+  display:grid;grid-template-columns:minmax(320px,1.05fr) 1.5fr;gap:22px;
+  max-width:1480px;margin:0 auto;align-items:stretch;
+}
+.highlight-card{
+  background:var(--card);border-radius:var(--radius-lg);
+  padding:20px;box-shadow:var(--shadow);color:var(--ink);
+}
+.section-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.info-badge{
+  width:34px;height:34px;border-radius:10px;
+  background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:17px;font-style:italic;
+}
+.section-head h2{font-size:clamp(17px,1.8vw,24px);font-weight:700}
+.thumb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.thumb{
+  text-decoration:none;color:var(--ink);
+  display:flex;flex-direction:column;gap:8px;
+  transition:transform .2s;
+}
+.thumb:hover{transform:translateY(-4px)}
+.thumb:focus-visible{outline:3px solid #6db28d;outline-offset:3px;border-radius:var(--radius-md)}
+.thumb img,.thumb .ph{
+  width:100%;aspect-ratio:1/1;border-radius:var(--radius-md);
+  object-fit:cover;background:var(--card-inner);display:block;
+}
+.thumb .ph{display:flex;align-items:center;justify-content:center;color:#b7bac2}
+.thumb .ph svg{width:34px;height:34px}
+.thumb-label{font-size:clamp(13px,1.3vw,17px);font-weight:600;text-align:center}
+
+.internal-card{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:20px clamp(16px,2vw,32px);
+}
+.internal-title{
+  color:#a9abb4;font-size:clamp(17px,1.9vw,26px);font-weight:700;
+  margin-bottom:22px;text-align:center;
+}
+.internal-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.internal-item{
+  text-decoration:none;color:#d7d8dd;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:14px 8px;border-radius:var(--radius-md);
+  border:1px solid transparent;
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.internal-item:hover{background:#17181d;border-color:#2c2d34;transform:translateY(-4px)}
+.internal-item:focus-visible{outline:3px solid #6db28d;outline-offset:2px}
+.internal-icon{
+  width:62px;height:62px;border-radius:18px;
+  background:#1b1c22;border:1px solid #2c2d34;
+  display:flex;align-items:center;justify-content:center;
+  color:#e8e9ee;
+}
+.internal-icon img{width:100%;height:100%;object-fit:cover;border-radius:18px}
+.internal-icon svg{width:32px;height:32px}
+.internal-label{font-size:clamp(11px,1.1vw,14.5px);font-weight:600;text-align:center;line-height:1.35}
+.internal-sub{font-size:clamp(10px,1vw,12.5px);color:#7e8089;font-weight:500;text-align:center;margin-top:-6px}
+
+/* ---------- Footer ---------- */
+.footer{
+  max-width:1480px;margin:44px auto 0;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:10px;
+  color:#6f717a;font-size:13px;
+}
+.footer a{color:#8d8f99;text-decoration:none}
+.footer a:hover{color:#c6c8d0}
+
+/* ---------- Loading skeleton ---------- */
+.skeleton{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+/* ---------- Responsive ---------- */
+@media(max-width:1080px){
+  .main-grid{grid-template-columns:repeat(2,1fr)}
+  .bottom-grid{grid-template-columns:1fr}
+  .internal-grid{grid-template-columns:repeat(5,1fr)}
+}
+@media(max-width:680px){
+  body{padding:18px 14px 50px}
+  .main-grid{grid-template-columns:1fr;gap:16px}
+  .thumb-grid{grid-template-columns:repeat(2,1fr)}
+  .internal-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .header{gap:12px}
+  .year-box{flex:1}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="title-pill"><h1 id="siteTitle">ข้อมูลสถิติจังหวัดหนองบัวลำภู</h1></div>
+  <div class="year-box">
+    <span class="year-label">เลือกปี</span>
+    <div class="year-select-wrap">
+      <select class="year-select" id="yearSelect" aria-label="เลือกปีข้อมูล"></select>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="main-grid" id="mainGrid" aria-label="หมวดหมู่ข้อมูลสถิติหลัก"></section>
+
+  <section class="bottom-grid">
+    <div class="highlight-card">
+      <div class="section-head">
+        <span class="info-badge" aria-hidden="true">i</span>
+        <h2 id="highlightTitle">สถิติที่น่าสนใจ</h2>
+      </div>
+      <div class="thumb-grid" id="thumbGrid"></div>
+    </div>
+
+    <div class="internal-card">
+      <div class="internal-title" id="internalTitle">ข้อมูลที่มีภายในจังหวัด</div>
+      <div class="internal-grid" id="internalGrid"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <span id="footerText">สำนักงานสถิติจังหวัดหนองบัวลำภู</span>
+  <a href="admin.html" rel="nofollow">⚙ สำหรับเจ้าหน้าที่</a>
+</footer>
+
+<script>
+/* ============================================================
+   ⚙️ ตั้งค่า: ใส่ Web app URL จาก Google Apps Script ที่นี่
+   (ปล่อยว่างได้ — จะใช้ค่า default ด้านล่างแทน)
+============================================================ */
+const GAS_URL = '';
+
+/* ---------- SVG icon set (inline, ไม่ต้องโหลดภายนอก) ---------- */
+const ICONS = {
+  social:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
+  econ:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 7-8"/><path d="M14 8h5v5"/><circle cx="6" cy="19" r="2"/></svg>',
+  env:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4-2-7-5.5-7-9.5C5 7 8 4 12 4s7 3 7 7.5c0 4-3 7.5-7 9.5z"/><path d="M12 21V9M12 13l3-2M12 11l-3-2"/></svg>',
+  people:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.6c2.7.2 5 1.9 5 4.4"/></svg>',
+  labor:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-6h6v6"/></svg>',
+  edu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9.5L12 5l9.5 4.5L12 14z"/><path d="M6.5 11.5v4.5c0 1.2 2.5 2.5 5.5 2.5s5.5-1.3 5.5-2.5v-4.5M21.5 9.5v6"/></svg>',
+  health:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4 15 4 9.5C4 6.5 6.3 4.5 9 4.5c1.5 0 2.5.7 3 1.5.5-.8 1.5-1.5 3-1.5 2.7 0 5 2 5 5 0 5.5-8 11-8 11z"/></svg>',
+  money:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9.5 9.5c0-1 1-1.7 2.5-1.7s2.5.8 2.5 1.8c0 2.6-5 1.6-5 4.3 0 1 1 1.8 2.5 1.8s2.5-.7 2.5-1.7"/></svg>',
+  trade:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.5 12h-13z"/><path d="M8.5 10V6a3.5 3.5 0 0 1 7 0v4"/></svg>',
+  welfare:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 4.6 5 .7-3.6 3.6.9 5-4.5-2.4L7.5 17l.9-5L4.8 8.3l5-.7z"/></svg>',
+  justice:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 21h14M12 6L6 8m6-2l6 2"/><path d="M3.5 13a2.5 2.5 0 0 0 5 0L6 8zM15.5 13a2.5 2.5 0 0 0 5 0L18 8z"/></svg>',
+  transport:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>'
+};
+
+/* ============================================================
+   ค่าเริ่มต้น — ใช้เมื่อยังไม่ได้เชื่อม GAS หรือโหลดไม่สำเร็จ
+============================================================ */
+const DEFAULT_CONFIG = {
+  siteTitle: 'ข้อมูลสถิติจังหวัดหนองบัวลำภู',
+  footerText: 'สำนักงานสถิติจังหวัดหนองบัวลำภู',
+  years: [
+    { label: '2567', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' }
+  ],
+  mainCards: [
+    {
+      title: 'สถิติด้านสังคมและสารสนเทศ',
+      icon: 'social',
+      image: '',
+      url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'
+    },
+    {
+      title: 'สถิติข้อมูลด้านเศรษฐกิจ',
+      icon: 'econ',
+      image: '',
+      url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'
+    },
+    {
+      title: 'สถิติข้อมูลด้านทรัพยากรธรรมชาติและสิ่งแวดล้อม',
+      icon: 'env',
+      image: '',
+      url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html'
+    }
+  ],
+  highlightTitle: 'สถิติที่น่าสนใจ',
+  highlights: [
+    { label: 'ประชากร', icon: 'people', image: '', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' },
+    { label: 'แรงงาน', icon: 'labor', image: '', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' },
+    { label: 'การศึกษา', icon: 'edu', image: '', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' },
+    { label: 'สุขภาพ', icon: 'health', image: '', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' }
+  ],
+  internalTitle: 'ข้อมูลที่มีภายในจังหวัด',
+  internals: [
+    { label: 'รายได้ รายจ่าย', sub: 'ของครัวเรือน', icon: 'money', image: '', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' },
+    { label: 'การค้าและราคา', sub: 'ภายในจังหวัด', icon: 'trade', image: '', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' },
+    { label: 'สวัสดิการ', sub: 'และสังคม', icon: 'welfare', image: '', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' },
+    { label: 'ยุติธรรม ความมั่นคง', sub: 'และการปกครอง', icon: 'justice', image: '', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' },
+    { label: 'ขนส่ง', sub: 'และโลจิสติกส์', icon: 'transport', image: '', url: 'https://nongbualamphu.nso.go.th/reports-publications/provincial-statistics-report.html' }
+  ]
+};
+
+/* ---------- Render ---------- */
+function esc(s){ return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function safeUrl(u){
+  u = String(u||'').trim();
+  return /^https?:\/\//i.test(u) ? u : '#';
+}
+function iconOrImage(item, cls){
+  if (item.image) return `<img class="${cls}" src="${esc(item.image)}" alt="" loading="lazy">`;
+  const svg = ICONS[item.icon] || ICONS.social;
+  return `<div class="${cls} ph" aria-hidden="true">${svg}</div>`;
+}
+
+function render(cfg){
+  document.getElementById('siteTitle').textContent = cfg.siteTitle || DEFAULT_CONFIG.siteTitle;
+  document.getElementById('footerText').textContent = cfg.footerText || DEFAULT_CONFIG.footerText;
+  document.title = cfg.siteTitle || DEFAULT_CONFIG.siteTitle;
+
+  // ปี
+  const yearSel = document.getElementById('yearSelect');
+  const years = (cfg.years && cfg.years.length) ? cfg.years : DEFAULT_CONFIG.years;
+  yearSel.innerHTML = years.map((y,i) => `<option value="${i}">${esc(y.label)}</option>`).join('');
+  yearSel.onchange = () => {
+    const y = years[yearSel.value];
+    if (y && y.url) window.open(safeUrl(y.url), '_blank', 'noopener');
+  };
+
+  // กล่องหมวดหลัก
+  document.getElementById('mainGrid').innerHTML = (cfg.mainCards||[]).map(c => `
+    <a class="cat-card" href="${safeUrl(c.url)}" target="_blank" rel="noopener">
+      <div class="cat-head">
+        <div class="cat-icon" aria-hidden="true">${ICONS[c.icon] || ICONS.social}</div>
+        <div class="cat-title">${esc(c.title)}</div>
+      </div>
+      ${c.image
+        ? `<img class="cat-img" src="${esc(c.image)}" alt="${esc(c.title)}" loading="lazy">`
+        : `<div class="cat-img placeholder">ยังไม่มีภาพประกอบ</div>`}
+    </a>`).join('');
+
+  // สถิติที่น่าสนใจ
+  document.getElementById('highlightTitle').textContent = cfg.highlightTitle || DEFAULT_CONFIG.highlightTitle;
+  document.getElementById('thumbGrid').innerHTML = (cfg.highlights||[]).map(t => `
+    <a class="thumb" href="${safeUrl(t.url)}" target="_blank" rel="noopener">
+      ${iconOrImage(t, '')}
+      <span class="thumb-label">${esc(t.label)}</span>
+    </a>`).join('');
+
+  // ข้อมูลภายในจังหวัด
+  document.getElementById('internalTitle').textContent = cfg.internalTitle || DEFAULT_CONFIG.internalTitle;
+  document.getElementById('internalGrid').innerHTML = (cfg.internals||[]).map(t => `
+    <a class="internal-item" href="${safeUrl(t.url)}" target="_blank" rel="noopener">
+      <div class="internal-icon">${t.image ? `<img src="${esc(t.image)}" alt="" loading="lazy">` : (ICONS[t.icon]||ICONS.money)}</div>
+      <span class="internal-label">${esc(t.label)}</span>
+      ${t.sub ? `<span class="internal-sub">${esc(t.sub)}</span>` : ''}
+    </a>`).join('');
+}
+
+/* ---------- โหลด config จาก GAS (JSONP เลี่ยง CORS) ---------- */
+function loadFromGAS(){
+  return new Promise(resolve => {
+    if (!GAS_URL) return resolve(null);
+    const cb = 'nblCfg_' + Date.now();
+    const timer = setTimeout(() => { cleanup(); resolve(null); }, 8000);
+    function cleanup(){ delete window[cb]; script.remove(); clearTimeout(timer); }
+    window[cb] = data => { cleanup(); resolve(data && data.ok ? data.config : null); };
+    const script = document.createElement('script');
+    script.src = GAS_URL + (GAS_URL.includes('?') ? '&' : '?') + 'callback=' + cb;
+    script.onerror = () => { cleanup(); resolve(null); };
+    document.body.appendChild(script);
+  });
+}
+
+(async function init(){
+  render(DEFAULT_CONFIG);
+  const remote = await loadFromGAS();
+  if (remote) render(Object.assign({}, DEFAULT_CONFIG, remote));
+})();
+</script>
+</body>
+</html>
